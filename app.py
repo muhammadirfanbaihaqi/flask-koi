@@ -9,6 +9,8 @@ from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi 
 import os
+import mysql.connector
+
 
 app = Flask(__name__)
 CORS(app)
