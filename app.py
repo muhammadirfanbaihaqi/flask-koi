@@ -29,19 +29,19 @@ def get_db_connection():
     )
 
 def init_db():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS jadwal_pakan (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            waktu_pakan TIME NOT NULL,
-            jumlah_pakan INT NOT NULL,
-            hari VARCHAR(20) NOT NULL
-        )
-    ''')
-    conn.commit()
-    cursor.close()
-    conn.close()
+    # conn = get_db_connection()
+    # cursor = conn.cursor()
+    # cursor.execute('''
+    #     CREATE TABLE IF NOT EXISTS jadwal_pakan (
+    #         id INT AUTO_INCREMENT PRIMARY KEY,
+    #         waktu_pakan TIME NOT NULL,
+    #         jumlah_pakan INT NOT NULL,
+    #         hari VARCHAR(20) NOT NULL
+    #     )
+    # ''')
+    # conn.commit()
+    # cursor.close()
+    # conn.close()
     print("✅ Tabel 'jadwal_pakan' sudah dipastikan ada.")
 
 
