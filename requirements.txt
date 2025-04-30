@@ -3,3 +3,4 @@ flask-cors
 gunicorn
 mysql-connector-python
 pymongo
+python-dotenv

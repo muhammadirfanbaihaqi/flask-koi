@@ -13,6 +13,9 @@ import os
 app = Flask(__name__)
 CORS(app)
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Koneksi ke MySQL Railway
 def get_db_connection():
     return mysql.connector.connect(
