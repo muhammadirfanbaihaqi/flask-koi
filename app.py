@@ -23,6 +23,23 @@ def get_db_connection():
         database=os.getenv("DB_NAME")
     )
 
+def init_db():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS jadwal_pakan (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            waktu_pakan TIME NOT NULL,
+            jumlah_pakan INT NOT NULL,
+            hari VARCHAR(20) NOT NULL
+        )
+    ''')
+    conn.commit()
+    cursor.close()
+    conn.close()
+    print("✅ Tabel 'jadwal_pakan' sudah dipastikan ada.")
+
+
 # URI MongoDB
 uri = "mongodb+srv://muhammadirfanbaihaqi538:9bS08vSHwy07ETmY@cluster0.rpgtm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
@@ -91,4 +108,5 @@ def set_jadwal():
 
 # ================= RUN SERVER =================
 if __name__ == '__main__':
+    init_db()
     app.run(host='0.0.0.0', port=5000, debug=True)
