@@ -1,8 +1,3 @@
-# ----------------------------------------------CATATAN-------------------------------------------------------------------
-# flask harus dijalankan secara terpisah (di folder lain)
-# saat ini flask masih berjalan di lokal , belum di deploy ke server
-# saat sudah dalam bentuk produk , flask akan dideploy agar data dari iot selalu bisa dikirim dan ditampilkan di streamlit
-# ------------------------------------------------------------------------------------------------------------------------
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
