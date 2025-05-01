@@ -10,6 +10,12 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi 
 import os
 import mysql.connector
+# api_flask.py
+import numpy as np
+from PIL import Image
+from io import BytesIO
+from ultralytics import YOLO
+import cv2
 
 
 app = Flask(__name__)
@@ -65,6 +71,39 @@ jadwal_pakan = [[7, 0], [12, 0], [18, 0]]  # Default: 3x sehari
 @app.route('/')
 def home():
     return "✅ API AIoT Aktif!"
+
+# Load YOLOv8 model
+model = YOLO("models/best (2).pt")  # Ganti dengan path model kamu
+
+@app.route('/detect', methods=['POST'])
+def detect_fish():
+    try:
+        # Ambil file gambar dari request
+        file = request.files['image']
+        image = Image.open(file).convert("RGB")
+
+        # Konversi gambar ke format OpenCV (BGR)
+        img_array = np.array(image)
+        img_bgr = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
+
+        # Deteksi menggunakan YOLOv8
+        results = model(img_bgr)
+        num_fish = len(results[0].boxes)
+
+        # Menghasilkan gambar hasil deteksi
+        result_img = results[0].plot()
+
+        # Simpan hasil deteksi gambar sebagai byte
+        is_success, buffer = cv2.imencode(".jpg", result_img)
+        result_img_bytes = buffer.tobytes()
+
+        return jsonify({
+            "num_fish": num_fish,
+            "image": result_img_bytes.hex()  # Mengirimkan gambar dalam bentuk hex string
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # ================= ENDPOINT SENSOR ================
 @app.route('/sensor', methods=['POST'])
