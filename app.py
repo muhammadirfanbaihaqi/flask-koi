@@ -2,12 +2,12 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-import os
-import numpy as np
-from PIL import Image
-from io import BytesIO
+# import os
+# import numpy as np
+# from PIL import Image
+# from io import BytesIO
 import cv2
 from datetime import datetime
 from bson.json_util import dumps
@@ -16,7 +16,7 @@ import pytz
 # ===================== KONFIGURASI DASAR =====================
 app = Flask(__name__)
 CORS(app)
-load_dotenv()
+# load_dotenv()
 
 # ===================== KONEKSI MONGODB ======================
 MONGO_URI = "mongodb+srv://muhammadirfanbaihaqi538:RgCSSPAItD7lV7Hw@cluster0.rpgtm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
