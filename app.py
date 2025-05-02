@@ -89,7 +89,13 @@ def ambil_riwayat_data():
             return {"error": "Format tanggal tidak valid"}, 400
 
     data = list(collection.find(query).sort("timestamp", -1).limit(1000))
-    return dumps(data), 200
+    
+    # Hapus _id dari setiap dokumen
+    for item in data:
+        item.pop('_id', None)
+
+    return Response(dumps(data), mimetype='application/json')
+
 
 # ================ ENDPOINT JADWAL PAKAN =====================
 @app.route('/jadwal_pakan', methods=['GET'])
