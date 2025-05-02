@@ -69,20 +69,41 @@ def home():
 #         return jsonify({"error": str(e)}), 500
 
 # ===================== ENDPOINT SENSOR ======================
+# @app.route('/sensor', methods=['POST'])
+# def simpan_data():
+#     data = request.get_json()
+#     if not data:
+#         return jsonify({"error": "Tidak ada data yang dikirim"}), 400
+
+    # data['timestamp'] = datetime.utcnow()
+    # collection.insert_one(data)
+#     return jsonify({"message": "Data berhasil disimpan"}), 201
+
+# @app.route('/sensor', methods=['GET'])
+# def ambil_data_terbaru():
+#     data = collection.find().sort("timestamp", -1).limit(1)
+#     return dumps(data[0]), 200
+
+
+# ================= ENDPOINT SENSOR ================
 @app.route('/sensor', methods=['POST'])
 def simpan_data():
+    global data_terakhir
     data = request.get_json()
+    print(data)
+
     if not data:
         return jsonify({"error": "Tidak ada data yang dikirim"}), 400
-
-    data['timestamp'] = datetime.utcnow()
+    
+    data_terakhir = data
+    data_terakhir['timestamp'] = datetime.utcnow()
     collection.insert_one(data)
+    print("📥 Data Diterima:", data_terakhir)
     return jsonify({"message": "Data berhasil disimpan"}), 201
 
 @app.route('/sensor', methods=['GET'])
-def ambil_data_terbaru():
-    data = collection.find().sort("timestamp", -1).limit(1)
-    return dumps(data[0]), 200
+def ambil_data():
+    return jsonify(data_terakhir), 200
 
 @app.route('/sensor/history', methods=['GET'])
 def ambil_riwayat_data():
