@@ -54,7 +54,7 @@ def simpan_data():
 
 @app.route('/sensor', methods=['GET'])
 def ambil_data():
-    return Response(dumps(data_terakhir), mimetype='application/json')
+    return jsonify(data_terakhir), 200
 
 
 # @app.route('/sensor', methods=['POST'])
