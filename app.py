@@ -89,16 +89,17 @@ def home():
 def simpan_data():
     global data_terakhir
     data = request.get_json()
-    print(data)
-
+    
     if not data:
         return jsonify({"error": "Tidak ada data yang dikirim"}), 400
     
     data_terakhir = data
-    data_terakhir['timestamp'] = datetime.utcnow()
-    collection.insert_one(data)
+    tz = pytz.timezone('Asia/Jakarta')
+    data_terakhir['timestamp'] = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
+    collection.insert_one(data_terakhir)
     print("📥 Data Diterima:", data_terakhir)
     return jsonify({"message": "Data berhasil disimpan"}), 201
+
 
 @app.route('/sensor', methods=['GET'])
 def ambil_data():
