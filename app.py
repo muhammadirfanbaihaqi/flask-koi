@@ -39,10 +39,10 @@ uri = "mongodb+srv://muhammadirfanbaihaqi538:9bS08vSHwy07ETmY@cluster0.rpgtm.mon
 client = MongoClient(uri, server_api=ServerApi('1'))
 
 # Memilih database "iot_db" di dalam MongoDB
-db = client["iot_db"]
+db = client["koi"]
 
 # Memilih koleksi "SIC6_COLLECTION" untuk menyimpan data sensor
-collection = db["suhu"]
+collection = db["sensor"]
 
 # ================= DATA SEMENTARA =================
 data_terakhir = {}
