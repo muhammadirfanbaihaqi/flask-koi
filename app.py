@@ -39,7 +39,7 @@ def simpan_data():
     if not data:
         return jsonify({"error": "Tidak ada data yang dikirim"}), 400
 
-    data_terakhir = {}
+    data_terakhir = data
     # Simpan waktu sebagai datetime UTC
     # wib_time = datetime.now(pytz.timezone('Asia/Jakarta'))
     # utc_time = wib_time.astimezone(timezone.utc)
