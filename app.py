@@ -3,7 +3,7 @@ from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from urllib.parse import quote as url_quote
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from bson.json_util import dumps
 import pytz
 
@@ -40,8 +40,12 @@ def simpan_data():
         return jsonify({"error": "Tidak ada data yang dikirim"}), 400
 
     data_terakhir = data
-    tz = pytz.timezone('Asia/Jakarta')
-    data_terakhir['timestamp'] = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
+# Simpan waktu sebagai datetime UTC
+    wib_time = datetime.now(pytz.timezone('Asia/Jakarta'))
+    utc_time = wib_time.astimezone(timezone.utc)
+
+    data_terakhir['timestamp'] = utc_time
+    collection.insert_one(data_terakhir)  # pastikan ini ada diaktifkan lagi
     print("📥 Data Diterima:", data_terakhir)
     return jsonify({"message": "Data berhasil disimpan"}), 201
 
