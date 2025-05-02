@@ -41,10 +41,12 @@ def simpan_data():
 
     data_terakhir = data
     # Simpan waktu sebagai datetime UTC
-    wib_time = datetime.now(pytz.timezone('Asia/Jakarta'))
-    utc_time = wib_time.astimezone(timezone.utc)
+    # wib_time = datetime.now(pytz.timezone('Asia/Jakarta'))
+    # utc_time = wib_time.astimezone(timezone.utc)
+    tz = pytz.timezone('Asia/Jakarta')
+    data_terakhir['timestamp'] = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
 
-    data_terakhir['timestamp'] = utc_time
+    data_terakhir['timestamp'] = data_terakhir
     collection.insert_one(data_terakhir)  # pastikan ini ada diaktifkan lagi
     print("📥 Data Diterima:", data_terakhir)
     return jsonify({"message": "Data berhasil disimpan"}), 201
