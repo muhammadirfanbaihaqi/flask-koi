@@ -11,6 +11,7 @@ from io import BytesIO
 import cv2
 from datetime import datetime
 from bson.json_util import dumps
+import pytz
 
 # ===================== KONFIGURASI DASAR =====================
 app = Flask(__name__)
@@ -41,7 +42,10 @@ jadwal_pakan = [[7, 0], [12, 0], [18, 0]]  # Default jadwal pakan
 # ===================== ROUTING UTAMA ========================
 @app.route('/')
 def home():
-    return f"✅ API AIoT Aktif! : {datetime.utcnow()}"
+    tz = pytz.timezone('Asia/Jakarta')
+    current_time = datetime.now(tz)
+    return f"✅ API AIoT Aktif! : {current_time}"
+
 
 # # ===================== DETEKSI IKAN =========================
 # @app.route('/detect', methods=['POST'])
