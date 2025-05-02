@@ -41,7 +41,7 @@ jadwal_pakan = [[7, 0], [12, 0], [18, 0]]  # Default jadwal pakan
 # ===================== ROUTING UTAMA ========================
 @app.route('/')
 def home():
-    return "✅ API AIoT Aktif!"
+    return f"✅ API AIoT Aktif! : {datetime.utcnow()}"
 
 # # ===================== DETEKSI IKAN =========================
 # @app.route('/detect', methods=['POST'])
