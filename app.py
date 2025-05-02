@@ -52,7 +52,11 @@ def simpan_data():
 
 @app.route('/sensor', methods=['GET'])
 def ambil_data():
-    return jsonify(data_terakhir), 200
+    # Buat salinan supaya data_terakhir asli tidak rusak
+    hasil = data_terakhir.copy()
+    hasil.pop('_id', None)  # hapus jika ada _id
+    return jsonify(hasil), 200
+
 
 
 # @app.route('/sensor', methods=['POST'])
