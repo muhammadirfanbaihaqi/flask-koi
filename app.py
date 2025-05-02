@@ -42,10 +42,11 @@ jadwal_pakan = [[7, 0], [12, 0], [18, 0]]  # Default jadwal pakan
 # ===================== ROUTING UTAMA ========================
 @app.route('/')
 def home():
+    # tampilkan datetime
     tz = pytz.timezone('Asia/Jakarta')
     current_time = datetime.now(tz)
-    return f"✅ API AIoT Aktif! : {current_time}"
-
+    return (f"✅ API AIoT Aktif! : {current_time}")
+    
 
 # # ===================== DETEKSI IKAN =========================
 # @app.route('/detect', methods=['POST'])
