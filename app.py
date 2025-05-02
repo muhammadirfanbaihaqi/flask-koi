@@ -3,7 +3,7 @@ from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from urllib.parse import quote as url_quote
-from datetime import datetime
+from datetime import datetime, timedelta
 from bson.json_util import dumps
 import pytz
 
@@ -65,9 +65,25 @@ def ambil_data():
 #     print("📥 Data Diterima:", data_terakhir)
 #     return jsonify({"message": "Data berhasil disimpan"}), 201
 
+from flask import request
+from datetime import datetime
+
 @app.route('/sensor/history', methods=['GET'])
 def ambil_riwayat_data():
-    data = list(collection.find().sort("timestamp", -1).limit(1000))
+    start = request.args.get('start')
+    end = request.args.get('end')
+
+    query = {}
+    if start and end:
+        # Konversi string ke datetime
+        try:
+            start_dt = datetime.strptime(start, "%Y-%m-%d")
+            end_dt = datetime.strptime(end, "%Y-%m-%d") + timedelta(days=1)  # tambah 1 hari agar mencakup seluruh hari "end"
+            query["timestamp"] = {"$gte": start_dt, "$lt": end_dt}
+        except ValueError:
+            return {"error": "Format tanggal tidak valid"}, 400
+
+    data = list(collection.find(query).sort("timestamp", -1).limit(1000))
     return dumps(data), 200
 
 # ================ ENDPOINT JADWAL PAKAN =====================
