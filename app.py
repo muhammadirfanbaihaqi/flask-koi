@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -40,7 +40,7 @@ def simpan_data():
         return jsonify({"error": "Tidak ada data yang dikirim"}), 400
 
     data_terakhir = data
-# Simpan waktu sebagai datetime UTC
+    # Simpan waktu sebagai datetime UTC
     wib_time = datetime.now(pytz.timezone('Asia/Jakarta'))
     utc_time = wib_time.astimezone(timezone.utc)
 
@@ -49,9 +49,10 @@ def simpan_data():
     print("📥 Data Diterima:", data_terakhir)
     return jsonify({"message": "Data berhasil disimpan"}), 201
 
+
 @app.route('/sensor', methods=['GET'])
 def ambil_data():
-    return jsonify(data_terakhir), 200
+    return Response(dumps(data_terakhir), mimetype='application/json')
 
 
 # @app.route('/sensor', methods=['POST'])
