@@ -33,7 +33,7 @@ load_dotenv()
 
 
 # URI MongoDB
-uri = "mongodb+srv://muhammadirfanbaihaqi538:9bS08vSHwy07ETmY@cluster0.rpgtm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+uri = "mongodb+srv://muhammadirfanbaihaqi538:RgCSSPAItD7lV7Hw@cluster0.rpgtm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 # Membuat klien baru dan menghubungkan ke server MongoDB
 client = MongoClient(uri, server_api=ServerApi('1'))
