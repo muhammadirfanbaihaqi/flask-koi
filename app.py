@@ -11,7 +11,6 @@ from io import BytesIO
 import cv2
 from datetime import datetime
 from bson.json_util import dumps
-from ultralytics import YOLO
 
 # ===================== KONFIGURASI DASAR =====================
 app = Flask(__name__)
@@ -29,37 +28,45 @@ data_terakhir = {}
 jadwal_pakan = [[7, 0], [12, 0], [18, 0]]  # Default jadwal pakan
 
 # ===================== INISIALISASI MODEL ====================
-model = YOLO("models/best (2).pt")  # Ganti dengan path model kamu
+# from torch.serialization import add_safe_globals
+# import ultralytics.nn.tasks as tasks
+# from ultralytics import YOLO
+
+# # Izinkan class model dari Ultralytics saat load
+# add_safe_globals([tasks.DetectionModel])
+
+# Load model YOLOv8
+# model = YOLO("models/best.pt")  # Ganti nama file jika perlu
 
 # ===================== ROUTING UTAMA ========================
 @app.route('/')
 def home():
     return "✅ API AIoT Aktif!"
 
-# ===================== DETEKSI IKAN =========================
-@app.route('/detect', methods=['POST'])
-def detect_fish():
-    try:
-        file = request.files['image']
-        image = Image.open(file).convert("RGB")
+# # ===================== DETEKSI IKAN =========================
+# @app.route('/detect', methods=['POST'])
+# def detect_fish():
+#     try:
+#         file = request.files['image']
+#         image = Image.open(file).convert("RGB")
 
-        img_array = np.array(image)
-        img_bgr = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
+#         img_array = np.array(image)
+#         img_bgr = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
 
-        results = model(img_bgr)
-        num_fish = len(results[0].boxes)
+#         results = model(img_bgr)
+#         num_fish = len(results[0].boxes)
 
-        result_img = results[0].plot()
-        _, buffer = cv2.imencode(".jpg", result_img)
-        result_img_bytes = buffer.tobytes()
+#         result_img = results[0].plot()
+#         _, buffer = cv2.imencode(".jpg", result_img)
+#         result_img_bytes = buffer.tobytes()
 
-        return jsonify({
-            "num_fish": num_fish,
-            "image": result_img_bytes.hex()
-        })
+#         return jsonify({
+#             "num_fish": num_fish,
+#             "image": result_img_bytes.hex()
+#         })
 
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
 
 # ===================== ENDPOINT SENSOR ======================
 @app.route('/sensor', methods=['POST'])
