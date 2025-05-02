@@ -95,6 +95,8 @@ def simpan_data():
         return jsonify({"error": "Tidak ada data yang dikirim"}), 400
 
     data_terakhir = data
+    tz = pytz.timezone('Asia/Jakarta')
+    data_terakhir['timestamp'] = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
     print("📥 Data Diterima:", data_terakhir)
     return jsonify({"message": "Data berhasil disimpan"}), 201
 
@@ -112,8 +114,8 @@ def ambil_data():
 #         return jsonify({"error": "Tidak ada data yang dikirim"}), 400
     
 #     data_terakhir = data
-#     tz = pytz.timezone('Asia/Jakarta')
-#     data_terakhir['timestamp'] = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
+    # tz = pytz.timezone('Asia/Jakarta')
+    # data_terakhir['timestamp'] = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
 #     collection.insert_one(data_terakhir)
 #     print("📥 Data Diterima:", data_terakhir)
 #     return jsonify({"message": "Data berhasil disimpan"}), 201
