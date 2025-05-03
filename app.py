@@ -74,7 +74,7 @@ def set_jumlah_bukaan():
 
 @app.route("/get-jumlah-bukaan", methods=["GET"])
 def get_jumlah_bukaan():
-    conn = mysql.connector.connect(...)
+    conn = create_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT jumlah_bukaan FROM pakan_settings WHERE id = 1")
     result = cursor.fetchone()
