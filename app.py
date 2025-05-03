@@ -96,8 +96,9 @@ def simpan_data():
     # Simpan waktu sebagai datetime UTC
     # wib_time = datetime.now(pytz.timezone('Asia/Jakarta'))
     # utc_time = wib_time.astimezone(timezone.utc)
-    tz = pytz.timezone('Asia/Jakarta')
-    data_terakhir['timestamp'] = datetime.now(tz)  # tanpa strftime
+    # tz = pytz.timezone('Asia/Jakarta')
+    # data_terakhir['timestamp'] = datetime.now(tz)  # tanpa strftime
+    data_terakhir['timestamp'] = datetime.now(timezone.utc)
     collection.insert_one(data_terakhir)
 
     print("📥 Data Diterima:", data_terakhir)
@@ -113,20 +114,6 @@ def ambil_data():
 
 
 
-# @app.route('/sensor', methods=['POST'])
-# def simpan_data():
-#     global data_terakhir
-#     data = request.get_json()
-    
-#     if not data:
-#         return jsonify({"error": "Tidak ada data yang dikirim"}), 400
-    
-#     data_terakhir = data
-    # tz = pytz.timezone('Asia/Jakarta')
-    # data_terakhir['timestamp'] = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
-#     collection.insert_one(data_terakhir)
-#     print("📥 Data Diterima:", data_terakhir)
-#     return jsonify({"message": "Data berhasil disimpan"}), 201
 
 from flask import request
 from datetime import datetime
