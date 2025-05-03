@@ -97,8 +97,9 @@ def simpan_data():
     # wib_time = datetime.now(pytz.timezone('Asia/Jakarta'))
     # utc_time = wib_time.astimezone(timezone.utc)
     tz = pytz.timezone('Asia/Jakarta')
-    data_terakhir['timestamp'] = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
-    collection.insert_one(data_terakhir)  # pastikan ini ada diaktifkan lagi
+    data_terakhir['timestamp'] = datetime.now(tz)  # tanpa strftime
+    collection.insert_one(data_terakhir)
+
     print("📥 Data Diterima:", data_terakhir)
     return jsonify({"message": "Data berhasil disimpan"}), 201
 
