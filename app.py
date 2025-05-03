@@ -29,6 +29,59 @@ def home():
     current_time = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
     return f"✅ API AIoT Aktif! : {current_time}"
 
+
+import mysql.connector
+from mysql.connector import Error
+from urllib.parse import urlparse
+# Connection URL yang diberikan oleh Railway
+connection_url = "mysql://root:JWWprfxEjxyJCLjIyxKnyoYfdCIjOLFT@caboose.proxy.rlwy.net:30550/railway"
+
+# Mengurai URL untuk mendapatkan detail koneksi
+url = urlparse(connection_url)
+
+# Fungsi untuk membuat koneksi
+def create_connection():
+    try:
+        # Mengonfigurasi koneksi menggunakan parameter yang benar
+        connection = mysql.connector.connect(
+            host=url.hostname,
+            user=url.username,
+            password=url.password,
+            database=url.path[1:],  # Mengambil nama database (tanpa '/')
+            port=url.port
+        )
+        # if connection.is_connected():
+        #     st.success("✅ Berhasil konek ke MySQL via Railway")
+        return connection
+    except Error as e:
+        return e
+
+@app.route("/set-jumlah-bukaan", methods=["POST"])
+def set_jumlah_bukaan():
+    data = request.get_json()
+    jumlah = data.get("jumlah_bukaan")
+    if jumlah is None or not (1 <= jumlah <= 10):
+        return jsonify({"error": "Jumlah bukaan tidak valid"}), 400
+    
+    # Simpan ke database
+        # Membuat koneksi ke database
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE pakan_settings SET jumlah_bukaan = %s WHERE id = 1", (jumlah,))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "Jumlah bukaan berhasil disimpan"})
+
+@app.route("/get-jumlah-bukaan", methods=["GET"])
+def get_jumlah_bukaan():
+    conn = mysql.connector.connect(...)
+    cursor = conn.cursor()
+    cursor.execute("SELECT jumlah_bukaan FROM pakan_settings WHERE id = 1")
+    result = cursor.fetchone()
+    conn.close()
+    return jsonify({"jumlah_bukaan": result[0]})
+
+
 # ================= ENDPOINT SENSOR ================
 @app.route('/sensor', methods=['POST'])
 def simpan_data():
